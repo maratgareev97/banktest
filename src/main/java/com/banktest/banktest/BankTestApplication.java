@@ -23,7 +23,7 @@ public class BankTestApplication  implements CommandLineRunner {
 //		if (null==adminAccount){
 			User user=new User();
 
-			user.setEmail("admin@gmail.com");
+			user.setLogin("admin@gmail.com");
 			user.setFirstname("admin");
 			user.setSecondname("admin");
 //			user.setRole(Role.ADMIN);
