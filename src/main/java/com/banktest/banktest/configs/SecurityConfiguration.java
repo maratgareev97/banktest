@@ -26,13 +26,14 @@ public class SecurityConfiguration {
 
     private final UserService userService;
 
-    @Bean
+        @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(request -> request.requestMatchers("/api/v1/auth/**")
+                .authorizeHttpRequests(request -> request.requestMatchers("/api/v1/auth/**",
+                                "/v3/api-docs/**",
+                                "/swagger-ui.html",
+                                "/swagger-ui/**")
                         .permitAll()
-//                        .requestMatchers("/api/v1/admin").hasAnyAuthority(Role.ADMIN.name())
-//                        .requestMatchers("/api/v1/user").hasAnyAuthority(Role.USER.name())
                         .anyRequest().authenticated())
                 .sessionManagement(manger -> manger.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider()).addFilterBefore(
@@ -40,9 +41,19 @@ public class SecurityConfiguration {
                 );
         return http.build();
     }
+//    @Bean
+//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+//        http
+//                .csrf(AbstractHttpConfigurer::disable)
+//                .authorizeHttpRequests(request -> request
+//                        .anyRequest().permitAll())  // Разрешить все запросы без аутентификации
+//                .sessionManagement(manger -> manger.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+//
+//        return http.build();
+//    }
 
     @Bean
-    public AuthenticationProvider authenticationProvider(){
+    public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
         authenticationProvider.setUserDetailsService(userService.userDetailsService());
         authenticationProvider.setPasswordEncoder(passwordEncoder());
