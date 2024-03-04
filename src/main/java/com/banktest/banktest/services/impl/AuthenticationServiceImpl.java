@@ -4,7 +4,6 @@ import com.banktest.banktest.dto.JwtAuthenticationResponse;
 import com.banktest.banktest.dto.RefreshTokenRequest;
 import com.banktest.banktest.dto.SignInRequest;
 import com.banktest.banktest.dto.SignUpRequest;
-import com.banktest.banktest.models.Role;
 import com.banktest.banktest.models.User;
 import com.banktest.banktest.repository.UserRepository;
 import com.banktest.banktest.services.AuthenticationService;
@@ -34,7 +33,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         user.setEmail(signUpRequest.getEmail());
         user.setFirstname(signUpRequest.getFirstName());
         user.setSecondname(signUpRequest.getLastName());
-        user.setRole(Role.USER);
+//        user.setRole(Role.USER);
         user.setPassword(passwordEncoder.encode(signUpRequest.getPassword()));
 
         return userRepository.save(user);
