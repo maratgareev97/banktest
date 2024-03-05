@@ -13,11 +13,14 @@ import java.math.BigDecimal;
 
 @Service
 public class TransferServiceImpl implements TransferService {
-    @Autowired
-    private BankAccountRepository bankAccountRepository;
+    private final BankAccountRepository bankAccountRepository;
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+
+    public TransferServiceImpl(BankAccountRepository bankAccountRepository, UserRepository userRepository) {
+        this.bankAccountRepository = bankAccountRepository;
+        this.userRepository = userRepository;
+    }
 
     @Transactional
     public void transfer(String fromUserLogin, Long toAccountId, BigDecimal amount) {
