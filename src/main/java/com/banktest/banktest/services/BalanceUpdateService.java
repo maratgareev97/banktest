@@ -24,11 +24,10 @@ public class BalanceUpdateService {
     @Scheduled(fixedRate = 60000)
     @Transactional
     public void updateBalances() {
-        logger.info("Updating balances for all accounts");
+        logger.info("Обновление балансов для всех счетов");
         List<BankAccount> accounts = bankAccountRepository.findAll();
         for (BankAccount account : accounts) {
             if (account.getInitialBalance() == null) {
-                // Если начальный баланс не установлен, установим его равным текущему балансу
                 account.setInitialBalance(account.getBalance());
             }
             BigDecimal initialBalance = account.getInitialBalance();

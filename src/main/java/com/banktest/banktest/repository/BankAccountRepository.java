@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface BankAccountRepository extends JpaRepository<BankAccount, Long> {
-    // Здесь можно добавить дополнительные методы запросов, если они потребуются
+
 }

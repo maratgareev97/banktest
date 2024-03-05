@@ -21,12 +21,12 @@ public class TransferServiceImpl implements TransferService {
 
     @Transactional
     public void transfer(String fromUserLogin, Long toAccountId, BigDecimal amount) {
-        User fromUser = userRepository.findByLogin(fromUserLogin).orElseThrow(() -> new RuntimeException("User not found"));
+        User fromUser = userRepository.findByLogin(fromUserLogin).orElseThrow(() -> new RuntimeException("Юзер не найден"));
         BankAccount fromAccount = fromUser.getBankAccount();
-        BankAccount toAccount = bankAccountRepository.findById(toAccountId).orElseThrow(() -> new RuntimeException("Account not found"));
+        BankAccount toAccount = bankAccountRepository.findById(toAccountId).orElseThrow(() -> new RuntimeException("Юзер не найден"));
 
         if (fromAccount.getBalance().compareTo(amount) < 0) {
-            throw new RuntimeException("Insufficient funds");
+            throw new RuntimeException("Недостаточно средств");
         }
 
         fromAccount.setBalance(fromAccount.getBalance().subtract(amount));

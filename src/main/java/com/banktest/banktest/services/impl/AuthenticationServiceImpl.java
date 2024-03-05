@@ -15,10 +15,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,16 +38,13 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         user.setFullName(signUpRequest.getFullName());
         user.setBirthDate(signUpRequest.getBirthDate());
         user.setPassword(passwordEncoder.encode(signUpRequest.getPassword()));
-
-//        user.setPhones(new HashSet<>(Arrays.asList(signUpRequest.getPhone())));
-//        user.setEmails(new HashSet<>(Arrays.asList(signUpRequest.getEmail())));
         user.setPhones(signUpRequest.getPhone());
         user.setEmails(signUpRequest.getEmail());
 
 
-// Инициализация банковского аккаунта с начальной суммой
+
         BankAccount bankAccount = new BankAccount();
-        bankAccount.setBalance(signUpRequest.getInitialBalance()); // Установка начальной суммы
+        bankAccount.setBalance(signUpRequest.getInitialBalance());
         user.setBankAccount(bankAccount);
         logger.info("Пользователь создан");
 
@@ -61,7 +55,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(signInRequest.getLogin(),
                 signInRequest.getPassword()));
         var user = userRepository.findByLogin(signInRequest.getLogin()).orElseThrow(
-                () -> new IllegalArgumentException("Invalid email or password"));
+                () -> new IllegalArgumentException("Неверный логин или пароль"));
         var jwt = jwtService.generateToken(user);
         var refreshToken = jwtService.generateRefreshToken(new HashMap<>(),user);
 

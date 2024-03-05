@@ -14,6 +14,6 @@ public class SignUpRequest {
     private Set<String> phone;
     private Set<String> email;
     private LocalDate birthDate;
-    private BigDecimal initialBalance; // Добавляем поле для начальной суммы
+    private BigDecimal initialBalance;
 
 }

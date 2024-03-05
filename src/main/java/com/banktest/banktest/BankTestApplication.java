@@ -38,7 +38,6 @@ public class BankTestApplication implements CommandLineRunner {
 //        user.setPhones(new HashSet<>(Collections.singletonList("1234567890"))); // Пример телефона
 //        user.setEmails(new HashSet<>(Collections.singletonList("admin@gmail.com"))); // Пример email
 //
-//        // Инициализация банковского аккаунта
 //        BankAccount bankAccount = new BankAccount();
 //        bankAccount.setBalance(new BigDecimal("10000.00")); // Пример начальной суммы
 //        user.setBankAccount(bankAccount);

@@ -9,10 +9,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.Optional;
-import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -25,7 +22,7 @@ public class UserServiceImpl implements UserService {
             @Override
             public UserDetails loadUserByUsername(String username) {
                 return userRepository.findByLogin(username)
-                        .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+                        .orElseThrow(() -> new UsernameNotFoundException("Юзер не найден"));
             }
         };
     }
@@ -36,15 +33,11 @@ public class UserServiceImpl implements UserService {
     }
 
     public boolean updatePhone(User user, String oldPhone, String newPhone) {
-//        System.out.println("Current phones: " + user.getPhones());
-//        System.out.println("Old phone: " + oldPhone);
-//        System.out.println("New phone: " + newPhone);
-//        System.out.println("Does collection contain the old phone? " + user.getPhones().contains(oldPhone));
         if (!user.getPhones().contains(oldPhone)) {
-            throw new RuntimeException("Old phone number not found.");
+            throw new RuntimeException("Старый тел не найден");
         }
         if (userRepository.existsByPhonesContains(newPhone)) {
-            throw new RuntimeException("New phone number is already in use.");
+            throw new RuntimeException("Телефон обновлен");
         }
         user.getPhones().remove(oldPhone);
         user.getPhones().add(newPhone);
@@ -54,10 +47,10 @@ public class UserServiceImpl implements UserService {
 
     public boolean updateEmail(User user, String oldEmail, String newEmail) {
         if (!user.getEmails().contains(oldEmail)) {
-            throw new RuntimeException("Old email not found.");
+            throw new RuntimeException("Старый email не найден");
         }
         if (userRepository.existsByEmailsContains(newEmail)) {
-            throw new RuntimeException("New Email is already in use.");
+            throw new RuntimeException("Email обновлен");
         }
         user.getEmails().remove(oldEmail);
         user.getEmails().add(newEmail);
@@ -72,7 +65,7 @@ public class UserServiceImpl implements UserService {
             userRepository.save(user);
             return true;
         } else {
-            throw new RuntimeException("Cannot delete the last phone number.");
+            throw new RuntimeException("Невозможно удалить последний номер телефона");
         }
     }
 
@@ -82,7 +75,7 @@ public class UserServiceImpl implements UserService {
             userRepository.save(user);
             return true;
         } else {
-            throw new RuntimeException("Cannot delete the last email.");
+            throw new RuntimeException("Невозможно удалить последний email");
         }
     }
 

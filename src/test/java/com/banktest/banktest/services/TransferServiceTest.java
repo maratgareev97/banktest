@@ -49,10 +49,8 @@ class TransferServiceImplTest {
         Mockito.when(userRepository.findByLogin("fromUser")).thenReturn(Optional.of(fromUser));
         Mockito.when(bankAccountRepository.findById(anyLong())).thenReturn(Optional.of(toAccount));
 
-        // Act
         transferService.transfer("fromUser", 1L, new BigDecimal("30"));
 
-        // Assert
         verify(bankAccountRepository, Mockito.times(2)).save(any(BankAccount.class));
     }
 
