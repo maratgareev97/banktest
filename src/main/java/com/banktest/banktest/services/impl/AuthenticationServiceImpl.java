@@ -4,6 +4,7 @@ import com.banktest.banktest.dto.JwtAuthenticationResponse;
 import com.banktest.banktest.dto.RefreshTokenRequest;
 import com.banktest.banktest.dto.SignInRequest;
 import com.banktest.banktest.dto.SignUpRequest;
+import com.banktest.banktest.models.BankAccount;
 import com.banktest.banktest.models.User;
 import com.banktest.banktest.repository.UserRepository;
 import com.banktest.banktest.services.AuthenticationService;
@@ -14,7 +15,10 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 
 @Service
 @RequiredArgsConstructor
@@ -31,10 +35,18 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         User user = new User();
 
         user.setLogin(signUpRequest.getLogin());
-        user.setFirstname(signUpRequest.getFirstName());
-        user.setSecondname(signUpRequest.getLastName());
-//        user.setRole(Role.USER);
+        user.setFullName(signUpRequest.getFullName());
+        user.setBirthDate(signUpRequest.getBirthDate());
         user.setPassword(passwordEncoder.encode(signUpRequest.getPassword()));
+
+        user.setPhones(new HashSet<>(Arrays.asList(signUpRequest.getPhone())));
+        user.setEmails(new HashSet<>(Arrays.asList(signUpRequest.getEmail())));
+
+
+// Инициализация банковского аккаунта с начальной суммой
+        BankAccount bankAccount = new BankAccount();
+        bankAccount.setBalance(signUpRequest.getInitialBalance()); // Установка начальной суммы
+        user.setBankAccount(bankAccount);
 
         return userRepository.save(user);
     }
