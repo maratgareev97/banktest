@@ -41,16 +41,6 @@ public class SecurityConfiguration {
                 );
         return http.build();
     }
-//    @Bean
-//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-//        http
-//                .csrf(AbstractHttpConfigurer::disable)
-//                .authorizeHttpRequests(request -> request
-//                        .anyRequest().permitAll())  // Разрешить все запросы без аутентификации
-//                .sessionManagement(manger -> manger.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-//
-//        return http.build();
-//    }
 
     @Bean
     public AuthenticationProvider authenticationProvider() {

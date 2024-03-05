@@ -4,6 +4,7 @@ import com.banktest.banktest.dto.JwtAuthenticationResponse;
 import com.banktest.banktest.dto.RefreshTokenRequest;
 import com.banktest.banktest.dto.SignInRequest;
 import com.banktest.banktest.dto.SignUpRequest;
+import com.banktest.banktest.models.BankAccount;
 import com.banktest.banktest.models.User;
 import com.banktest.banktest.repository.UserRepository;
 import com.banktest.banktest.services.AuthenticationService;
@@ -15,6 +16,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Service
 @RequiredArgsConstructor
@@ -26,24 +29,33 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     private final JWTservice jwtService;
 
+    private static final Logger logger = LoggerFactory.getLogger(AuthenticationServiceImpl.class);
     @Override
     public User signup(SignUpRequest signUpRequest) {
         User user = new User();
 
-        user.setEmail(signUpRequest.getEmail());
-        user.setFirstname(signUpRequest.getFirstName());
-        user.setSecondname(signUpRequest.getLastName());
-//        user.setRole(Role.USER);
+        user.setLogin(signUpRequest.getLogin());
+        user.setFullName(signUpRequest.getFullName());
+        user.setBirthDate(signUpRequest.getBirthDate());
         user.setPassword(passwordEncoder.encode(signUpRequest.getPassword()));
+        user.setPhones(signUpRequest.getPhone());
+        user.setEmails(signUpRequest.getEmail());
+
+
+
+        BankAccount bankAccount = new BankAccount();
+        bankAccount.setBalance(signUpRequest.getInitialBalance());
+        user.setBankAccount(bankAccount);
+        logger.info("Пользователь создан");
 
         return userRepository.save(user);
     }
 
     public JwtAuthenticationResponse signin(SignInRequest signInRequest) {
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(signInRequest.getEmail(),
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(signInRequest.getLogin(),
                 signInRequest.getPassword()));
-        var user = userRepository.findByEmail(signInRequest.getEmail()).orElseThrow(
-                () -> new IllegalArgumentException("Invalid email or password"));
+        var user = userRepository.findByLogin(signInRequest.getLogin()).orElseThrow(
+                () -> new IllegalArgumentException("Неверный логин или пароль"));
         var jwt = jwtService.generateToken(user);
         var refreshToken = jwtService.generateRefreshToken(new HashMap<>(),user);
 
@@ -56,7 +68,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     public JwtAuthenticationResponse refreshToken(RefreshTokenRequest refreshTokenRequest){
         String userEmail = jwtService.extractUserName(refreshTokenRequest.getToken());
-        User user = userRepository.findByEmail(userEmail).orElseThrow();
+        User user = userRepository.findByLogin(userEmail).orElseThrow();
         if(jwtService.isTokenValid(refreshTokenRequest.getToken(),user)){
             var jwt = jwtService.generateToken(user);
 

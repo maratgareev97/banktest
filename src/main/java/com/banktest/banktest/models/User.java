@@ -6,9 +6,11 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @Entity
@@ -17,21 +19,32 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String firstname;
-    private String secondname;
-    private String email;
+    private String login;
     private String password;
-//    private Role role;
+    private String fullName;
+    private LocalDate birthDate;
+    @ElementCollection
+    @CollectionTable(name = "user_phones", joinColumns = @JoinColumn(name = "user_id"))
+    @Column(name = "phone")
+    private Set<String> phones;
+
+    @ElementCollection
+    @CollectionTable(name = "user_emails", joinColumns = @JoinColumn(name = "user_id"))
+    @Column(name = "email")
+    private Set<String> emails;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "bank_account_id")
+    private BankAccount bankAccount;
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-//        return List.of(new SimpleGrantedAuthority(role.name()));
         return new ArrayList<>();
     }
 
     @Override
     public String getUsername() {
-        return email;
+        return login;
     }
 
     @Override
