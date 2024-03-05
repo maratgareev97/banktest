@@ -14,4 +14,6 @@ public class BankAccount {
     private Long id;
 
     private BigDecimal balance;
+    @Column(name = "initial_balance")
+    private BigDecimal initialBalance;
 }

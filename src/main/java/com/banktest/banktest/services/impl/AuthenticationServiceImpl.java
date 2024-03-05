@@ -19,6 +19,8 @@ import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Service
 @RequiredArgsConstructor
@@ -30,6 +32,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     private final JWTservice jwtService;
 
+    private static final Logger logger = LoggerFactory.getLogger(AuthenticationServiceImpl.class);
     @Override
     public User signup(SignUpRequest signUpRequest) {
         User user = new User();
@@ -49,6 +52,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         BankAccount bankAccount = new BankAccount();
         bankAccount.setBalance(signUpRequest.getInitialBalance()); // Установка начальной суммы
         user.setBankAccount(bankAccount);
+        logger.info("Пользователь создан");
 
         return userRepository.save(user);
     }

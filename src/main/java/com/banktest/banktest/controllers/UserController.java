@@ -4,12 +4,21 @@ import com.banktest.banktest.dto.TransferRequest;
 import com.banktest.banktest.dto.UpdateEmailRequest;
 import com.banktest.banktest.dto.UpdatePhoneRequest;
 import com.banktest.banktest.models.User;
+import com.banktest.banktest.repository.UserRepository;
 import com.banktest.banktest.services.TransferService;
 import com.banktest.banktest.services.UserService;
+import com.banktest.banktest.services.impl.UserSpecification;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
 
 @RestController
 @RequestMapping("/api/v1/user")
