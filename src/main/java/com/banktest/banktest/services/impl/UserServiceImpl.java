@@ -64,4 +64,25 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
         return true;
     }
+
+
+    public boolean deletePhone(User user, String phoneToDelete) {
+        if (user.getPhones().size() > 1 && user.getPhones().contains(phoneToDelete)) {
+            user.getPhones().remove(phoneToDelete);
+            userRepository.save(user);
+            return true;
+        } else {
+            throw new RuntimeException("Cannot delete the last phone number.");
+        }
+    }
+
+    public boolean deleteEmail(User user, String emailToDelete) {
+        if (user.getEmails().size() > 1 && user.getEmails().contains(emailToDelete)) {
+            user.getEmails().remove(emailToDelete);
+            userRepository.save(user);
+            return true;
+        } else {
+            throw new RuntimeException("Cannot delete the last email.");
+        }
+    }
 }

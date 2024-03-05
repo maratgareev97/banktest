@@ -46,4 +46,20 @@ public class UserController {
         userService.updateEmail(user, updateEmailRequest.getOldEmail(), updateEmailRequest.getNewEmail());
         return ResponseEntity.ok("Email updated successfully");
     }
+
+    @PostMapping("/deletePhone")
+    public ResponseEntity<String> deletePhone(Authentication authentication, @RequestParam String phone) {
+        User user = userService.findByUsername(authentication.getName())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        userService.deletePhone(user, phone);
+        return ResponseEntity.ok("Phone deleted successfully");
+    }
+
+    @PostMapping("/deleteEmail")
+    public ResponseEntity<String> deleteEmail(Authentication authentication, @RequestParam String email) {
+        User user = userService.findByUsername(authentication.getName())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        userService.deleteEmail(user, email);
+        return ResponseEntity.ok("Email deleted successfully");
+    }
 }

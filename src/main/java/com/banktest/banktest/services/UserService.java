@@ -11,4 +11,6 @@ public interface UserService {
     public Optional<User> findByUsername(String username);
     public boolean updatePhone(User user, String oldPhone, String newPhone);
     public boolean updateEmail(User user, String oldEmail, String newEmail);
+    public boolean deletePhone(User user, String phoneToDelete);
+    public boolean deleteEmail(User user, String emailToDelete);
 }
