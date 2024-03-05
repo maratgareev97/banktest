@@ -17,8 +17,8 @@ import java.util.HashSet;
 @SpringBootApplication
 public class BankTestApplication implements CommandLineRunner {
 
-    @Autowired
-    private UserRepository userRepository;
+//    @Autowired
+//    private UserRepository userRepository;
 
     public static void main(String[] args) {
         SpringApplication.run(BankTestApplication.class, args);
@@ -27,21 +27,21 @@ public class BankTestApplication implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-        User user = new User();
-
-        user.setLogin("admin@gmail.com");
-        user.setPassword(new BCryptPasswordEncoder().encode("admin"));
-        user.setFullName("admin");
-        user.setBirthDate(LocalDate.parse("2024-01-01"));
-        user.setPhones(new HashSet<>(Collections.singletonList("1234567890"))); // Пример телефона
-        user.setEmails(new HashSet<>(Collections.singletonList("admin@gmail.com"))); // Пример email
-
-        // Инициализация банковского аккаунта
-        BankAccount bankAccount = new BankAccount();
-        bankAccount.setBalance(new BigDecimal("10000.00")); // Пример начальной суммы
-        user.setBankAccount(bankAccount);
-        userRepository.save(user);
-
-
+//        User user = new User();
+//
+//        user.setLogin("admin@gmail.com");
+//        user.setPassword(new BCryptPasswordEncoder().encode("admin"));
+//        user.setFullName("admin");
+//        user.setBirthDate(LocalDate.parse("2024-01-01"));
+//        user.setPhones(new HashSet<>(Collections.singletonList("1234567890"))); // Пример телефона
+//        user.setEmails(new HashSet<>(Collections.singletonList("admin@gmail.com"))); // Пример email
+//
+//        // Инициализация банковского аккаунта
+//        BankAccount bankAccount = new BankAccount();
+//        bankAccount.setBalance(new BigDecimal("10000.00")); // Пример начальной суммы
+//        user.setBankAccount(bankAccount);
+//        userRepository.save(user);
+//
+//
     }
 }

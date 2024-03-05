@@ -39,8 +39,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         user.setBirthDate(signUpRequest.getBirthDate());
         user.setPassword(passwordEncoder.encode(signUpRequest.getPassword()));
 
-        user.setPhones(new HashSet<>(Arrays.asList(signUpRequest.getPhone())));
-        user.setEmails(new HashSet<>(Arrays.asList(signUpRequest.getEmail())));
+//        user.setPhones(new HashSet<>(Arrays.asList(signUpRequest.getPhone())));
+//        user.setEmails(new HashSet<>(Arrays.asList(signUpRequest.getEmail())));
+        user.setPhones(signUpRequest.getPhone());
+        user.setEmails(signUpRequest.getEmail());
 
 
 // Инициализация банковского аккаунта с начальной суммой
